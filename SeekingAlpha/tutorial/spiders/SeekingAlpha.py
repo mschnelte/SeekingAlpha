@@ -19,22 +19,20 @@ class QuotesSpider(scrapy.Spider):
 
     name = "quotes"
     custom_settings = {
-            # 'LOG_LEVEL': 'CRITICAL', # 'DEBUG'
-            # 'LOG_ENABLED': False,
-            'DOWNLOAD_DELAY': 5 # 0.25 == 250 ms of delay, 1 == 1000ms of delay, etc.
+            #'LOG_LEVEL': 'CRITICAL', # 'DEBUG'
+            #'LOG_ENABLED': True,
+            #'COOKIES_ENABLED' : False,
+            'CONCURRENT_REQUESTS_PER_DOMAIN':1,
+            'CONCURRENT_REQUESTS': 2,
+            'DOWNLOAD_DELAY': 2 # 0.25 == 250 ms of delay, 1 == 1000ms of delay, etc.
     }
 
     def start_requests(self):
         # GET LAST INDEX PAGE NUMBER
         urls = [ 'https://seekingalpha.com/earnings/earnings-call-transcripts/9999' ]
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
-
-    def parse(self, response):
-        data = response.css("#paging > ul.list-inline > li:last-child a::text")
-        last_page = data.extract()
-        last_page = int(last_page[0])
+        last_page=32
         for x in range(0, last_page+1):
+            print("Number: %d",x)
             # DEBUGGING: CHECK ONLY FIRST ELEMENT
             if debug_mode == True and x > 0:
                 break

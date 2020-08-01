@@ -1,0 +1,4 @@
+SeekingAlpha/tutorial/__pycache__/*
+*.html
+SeekingAlpha/tutorial/spiders/__pycache__/*
+.vscode/settings.json
